@@ -4,6 +4,9 @@ import { useSocket } from "./useSocket"
 const TICK_SIZE = 10
 const NAN_STRING = "--"
 
+interface Data {
+  power: number;
+}
 
 /**
  * Given a number time, format it to look like 00:00:00. Time is in milliseconds. If the given time is NaN, just returns "---". If the given time is not a number (as in it's a string or something), then just return that too.
@@ -24,7 +27,6 @@ function formatTime(time: number) {
     // combine with colon
     .join(":")
 }
-
 
 /**
  * A method abstracting the timer format (label and time)
@@ -48,7 +50,6 @@ const Timer = ({ name, value, children }: { name: string, value: number, childre
     {children}
   </div>)
 
-
 export default function Lapping() {
   const socket = useSocket();
   // state functions for whether timer is on or off
@@ -65,6 +66,7 @@ export default function Lapping() {
 
   //lap number
   const [lapNum, updateLapNum] = React.useState<number>(0)
+  let data: Data = { power: 0 }
 
   //setting timer
   useEffect(() => {
@@ -78,13 +80,20 @@ export default function Lapping() {
   }, [runningTime])
 
   useEffect(() => {
-    const update = data => setCurrentWatts(data.power)
-    socket.on("new_car_data", update)
+    const update = (rawData: string) => {
+      data = Object.assign(data, JSON.parse(rawData))
+      setCurrentWatts(data.power)
+    } //should be stringified in the server.js file before being sent here
+    socket.onmessage = (event: MessageEvent) => {
+      update(event.data)
+    }
+    socket.OPEN
+
     setTotalWatts(t => currentWatts + t)
     return () => {
-      socket.off("new_car_data", update)
+      socket.close()
     }
-  }, [socket]) //what is data
+  }, [socket])
 
   function incrementLap() {
     // add the current lap to the completed list, since we just 
