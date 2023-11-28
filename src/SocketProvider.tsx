@@ -1,5 +1,5 @@
 import { useEffect, useState, createContext } from "react";
-let SOCKET_URL = "URL"
+let SOCKET_URL = "ws://" + location.host
 const ws = new WebSocket(SOCKET_URL)
 export const SocketContext = createContext(ws)
 

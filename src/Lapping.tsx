@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react"
+import React, { useEffect } from "react"
 import { useSocket } from "./useSocket"
 
 const TICK_SIZE = 10
@@ -7,7 +7,7 @@ const NAN_STRING = "--"
 interface Data {
   power: number;
 }
-
+//note to self: something is wrong when this is used in App.tsx
 /**
  * Given a number time, format it to look like 00:00:00. Time is in milliseconds. If the given time is NaN, just returns "---". If the given time is not a number (as in it's a string or something), then just return that too.
  */
@@ -30,11 +30,11 @@ function formatTime(time: number) {
 
 /**
  * A method abstracting the timer format (label and time)
- * @param param0 name: the label, value: the time displayed, children: rest of elements in div?
+ * @param param0 name: the label, value: the time displayed, children: rest of elements in div
  * @returns Formatted timer div
  */
-const Timer = ({ name, value, children }: { name: string, value: number, children: any }) => (
-  <div className={name.toLowerCase().replace(" ", "_")}>
+const Timer = ({ name, value, children }: { name: string, value: number, children: JSX.Element | JSX.Element[] }) => (
+  <div className="timer_element" id={name.toLowerCase().replace(" ", "_")}>
     <p className="lap_header" id={name.toLowerCase().replace(" ", "_")}>
       {name.toUpperCase()}
     </p>
@@ -46,8 +46,9 @@ const Timer = ({ name, value, children }: { name: string, value: number, childre
         </div>
       </div>
     </div>
-
-    {children}
+    <div>
+      {children}
+    </div>
   </div>)
 
 export default function Lapping() {
@@ -143,38 +144,39 @@ export default function Lapping() {
           setCurrentWatts(0)
           setCompletedWatts([])
           setTotalWatts(0)
+          updateLapNum(0);
         }}>
           Reset</button>
       </section>
 
       <div className="lap_timings">
         <Timer name="current lap" value={currentTime}>
-          <p className="power" id="current_power">
+          <p className="measurement" id="current_power">
             {currentWatts} <span className="units" id="current_power_units">Watts</span>
           </p>
-          <p className="power_joules" id="current_power_joules">
+          <p className="measurement" id="current_power_joules">
             {currentJoules} <span className="units" id="current_power_units_joules">Joules</span>
           </p>
         </Timer>
 
         <Timer name="total time" value={totalTime}>
-          <p className="power" id="current_power">
+          <p className="measurement" id="current_power">
             {totalWatts} <span className="units" id="current_power_units">Total Watts</span>
           </p>
-          <p className="power_joules" id="current_power_joules">
+          <p className="measurement" id="current_power_joules">
             {totalJoules} <span className="units" id="current_power_units_joules">Total Joules</span>
           </p>
         </Timer>
 
         <Timer name="previous lap" value={previousTime}>
-          <p className="power" id="previous_power">
-            {previousWatts} <span className="units_power">Watts</span>
+          <p className="measurement" id="previous_power">
+            {previousWatts} <span className="units">Watts</span>
           </p>
         </Timer>
 
         <Timer name="best lap" value={bestTime}>
-          <p className="power" id="best_power">
-            {bestWatts} <span className="units_power">Watts</span>
+          <p className="measurement" id="best_power">
+            {bestWatts} <span className="units">Watts</span>
           </p>
         </Timer>
       </div>
