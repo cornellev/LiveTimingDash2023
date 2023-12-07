@@ -7,7 +7,6 @@ const NAN_STRING = "--"
 interface Data {
   power: number;
 }
-//note to self: something is wrong when this is used in App.tsx
 /**
  * Given a number time, format it to look like 00:00:00. Time is in milliseconds. If the given time is NaN, just returns "---". If the given time is not a number (as in it's a string or something), then just return that too.
  */
