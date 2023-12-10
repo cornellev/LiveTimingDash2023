@@ -11,21 +11,21 @@ The frontend of the dashboard is built in Typescript with the React framework, w
 ![A screencap of the live timing dash, December 2023](src/assets/dash.png)
 
 ## Terminology
-**Server** : A piece of software that provides resources (such as data) on demand to the client. Handles client requests.
-**Client** : The user, the one making a request of the server.
-**Frontend** : The part of the website the user can view and interact with.
-**Backend** : The "behind-the-scenes" part of the website that handles fetching data and maintaining a connection with the server.
-**DAQ (Data Auisition system)** : A piece of hardware that collects data about the vehicle and sends it to the server.
-**Mobile Dash** : Hosted on a phone that the driver of our vehicle carries with them. Displays up-to-date information about the car and posts this information to the live timing dash.
-**React TS** : A Typescript based library that provides functionality for building front-end interfaces.
-**Components** : The building blocks of React webpages; display an element on the screen and can provide interactivity.
-**Typescript** : A type-safe version of Javascript.
-**HTML** : Stands for Hyper-Text Markup Language. The base language used to specify the layout of webpages.
-**CSS** : Stands for Cascading Style Sheets. A language that provides a way to specify the look of webpages.
-**TSX** : Allows the programmer to create HTML elements in Typescript. These elements can than be displayed in React components
-**Vite** : A tool that helps make development of front end projects easier.
-**useEffect** : React's useEffect hook allows the user to run a piece of setup code  each time one of the specified variables (called dependcies, often connected to external systems, such as the server) changes. It runs a piece of setup code when the component is first loaded onto the page. After a dependency changes, a piece of cleanup code is run before the setup code reruns.
-**useState** : Creates a variable and a function to update its value.
+**Server** : A piece of software that provides resources (such as data) on demand to the client. Handles client requests. <br>
+**Client** : The user, the one making a request of the server. <br>
+**Frontend** : The part of the website the user can view and interact with. <br>
+**Backend** : The "behind-the-scenes" part of the website that handles fetching data and maintaining a connection with the server. <br>
+**DAQ (Data Auisition system)** : A piece of hardware that collects data about the vehicle and sends it to the server. <br>
+**Mobile Dash** : Hosted on a phone that the driver of our vehicle carries with them. Displays up-to-date information about the car and posts this information to the live timing dash. <br>
+**React TS** : A Typescript based library that provides functionality for building front-end interfaces. <br>
+**Components** : The building blocks of React webpages; display an element on the screen and can provide interactivity. <br>
+**Typescript** : A type-safe version of Javascript. <br>
+**HTML** : Stands for Hyper-Text Markup Language. The base language used to specify the layout of webpages. <br>
+**CSS** : Stands for Cascading Style Sheets. A language that provides a way to specify the look of webpages. <br>
+**TSX** : Allows the programmer to create HTML elements in Typescript. These elements can than be displayed in React components. <br>
+**Vite** : A tool that helps make development of front end projects easier. <br>
+**useEffect** : React's useEffect hook allows the user to run a piece of setup code  each time one of the specified variables (called dependcies, often connected to external systems, such as the server) changes. It runs a piece of setup code when the component is first loaded onto the page. After a dependency changes, a piece of cleanup code is run before the setup code reruns. <br>
+**useState** : Creates a variable and a function to update its value. <br>
 
 # How To Use
 Steps:
