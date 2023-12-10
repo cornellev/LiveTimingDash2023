@@ -1,5 +1,5 @@
 # Live Timing Dash | FAll 2023
-Serena Duncan, with assistance from Aditya Kakade and occasional advice from Jason Klein.
+Serena Duncan (smd334)
 # Summary
 ## System Description
 The Live Timing Dash is a ReactJS-based platform that displays information about the vehicle's performance as it runs. This dashboard is used by team members during competition to see how the car is performing and gather live data about it's performance. It is intended to provide a bridge between the driver and the rest of the team by ensuring the team is able to moniter the car during drives and ensure it is performing properly. 
