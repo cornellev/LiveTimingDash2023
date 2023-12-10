@@ -52,13 +52,13 @@ The App.tsx file is the primary component and acts as a container for all the ot
 
 ### Component Files
 The component files are the .tsx files in the src folder (excluding main.tsx, App.tsx, Socketprovider.tsx, and useSocket.tsx). These components split the interface into small, reusable blocks that each contain or handle one primary task. These components handle state changes due to data updating and display useful information about the car. Components all contain a few key elements:
-1) Interface for a Data object
+1) Interface for a Data object <br>
 This interface provides a basic layout for a data object that contains the information the component is tasked with displaying. The object is created within the component and updated periodically as new data comes in from the server.
-2) Websocket Connection via useEffect hook
+2) Websocket Connection via useEffect hook <br>
 Each component uses a useEffect hook to update its data object with new data from the server. 
-3) a return() function
+3) a return() function <br>
 The return function contains the TSX elements the component will display on the webpage.
-4) variables for displaying data
+4) variables for displaying data <br>
 Variables are created with the useState hook and updated within the useEffect hook when new data needs to be displayed.
 
 ## Application Architecture: Backend
