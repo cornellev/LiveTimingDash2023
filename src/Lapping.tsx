@@ -95,6 +95,9 @@ export default function Lapping() {
     }
   }, [socket])
 
+  /**
+   * Updates Wattage and Time arrays after a lap is completed
+   */
   function incrementLap() {
     // add the current lap to the completed list, since we just 
     // finished it (that's what it means to increment a lap)

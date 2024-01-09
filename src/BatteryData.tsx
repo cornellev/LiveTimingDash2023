@@ -1,11 +1,16 @@
 import { useState, useEffect } from "react";
 import { useSocket } from "./useSocket";
 
+// type for data. will be updated to match what is sent from mobile dash
 interface Data {
   level: number;
   temperature: number;
 }
 
+/**
+ * A component storing data about the battery
+ * @returns a component displaying the battery percentage (level) and temperature
+ */
 export default function BatteryData() {
   const socket = useSocket()
   const [batt_level, setBatteryLevel] = useState(100);

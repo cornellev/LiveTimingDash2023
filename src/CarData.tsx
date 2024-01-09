@@ -6,6 +6,10 @@ interface Data {
   steering_angle: number;
 }
 
+/**
+ * A component storing data about the car
+ * @returns a component displaying the current speed and steering angle
+ */
 export default function CarData() {
   const socket = useSocket()
   const [curr_speed, setSpeed] = useState(0);
