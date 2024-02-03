@@ -10,12 +10,11 @@ var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 const SpeedGraph = () => {
   const [currSpeed, setSpeed] = useState(0)
 
-  //i know how to define updatePoints but not how to call it
   const [points, updatePoints] = useState([{ x: 0, y: 0 }])
   const [currX, updateX] = useState(0)
   const options = {
     title: {
-      text: "Speed (I am speed)"
+      text: "Speed"
     },
     data: [{
       type: "line",

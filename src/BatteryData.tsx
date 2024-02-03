@@ -35,8 +35,8 @@ export default function BatteryData() {
 
   return (
     <div>
-      <p className="measurement">BATTERY LEVEL: {batt_level}</p>
-      <p className="measurement">BATTERY TEMPERATURE: {batt_temp}</p>
+      <p className="measurement_nobg">BATTERY LEVEL: {batt_level}</p>
+      <p className="measurement_nobg">BATTERY TEMPERATURE: {batt_temp}</p>
     </div>
   )
 

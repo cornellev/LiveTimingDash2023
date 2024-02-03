@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useSocket } from "./useSocket";
+import SpeedGraph from "./Graph";
 
 interface Data {
   speed: number;
@@ -34,10 +35,11 @@ export default function CarData() {
     }
   }, [socket])
 
-  return (
+  return (<>
     <div>
-      <p className="measurement">CURRENT SPEED: {curr_speed}</p>
-      <p className="measurement">STEERING ANGLE: {curr_steering_angle}</p>
+      <p className="measurement_nobg">CURRENT SPEED: {curr_speed}</p>
+      <p className="measurement_nobg">STEERING ANGLE: {curr_steering_angle}</p>
     </div>
-  )
+    <SpeedGraph></SpeedGraph>
+  </>)
 }

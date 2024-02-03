@@ -1,5 +1,7 @@
 import React, { useEffect } from "react"
 import { useSocket } from "./useSocket"
+import SpeedGraph from "./Graph";
+import CarData from "./CarData";
 
 const TICK_SIZE = 10
 const NAN_STRING = "--"
@@ -127,61 +129,66 @@ export default function Lapping() {
   const bestWatts = completedTime.length > 0 ? completedWatts[completedTime.indexOf(bestTime)] : NaN
 
   return (<>
-    <div className="lapnum">
-      <h1 id="lapno">LAP {lapNum}</h1>
-    </div>
-    <div className="lap_timer">
-      <section className="lap_buttons">
-        <button className="lap_button" onClick={() => setRunningTime(true)}>Start</button>
-        <button className="lap_button" onClick={() => setRunningTime(false)}>Stop</button>
-        <button className="lap_button" onClick={() => {
-          incrementLap()
-          setCurrentTime(0)
-          setCurrentWatts(0)
-        }}>Lap</button>
-        <button className="lap_button" onClick={() => {
-          setRunningTime(false)
-          setCurrentTime(0)
-          setCompletedTime([])
-          setCurrentWatts(0)
-          setCompletedWatts([])
-          setTotalWatts(0)
-          updateLapNum(0);
-        }}>
-          Reset</button>
-      </section>
+    <div className="lap_graph_container">
+      <div>
+        <div className="lapnum">
+          <h1 id="lapno">LAP {lapNum}</h1>
+        </div>
+        <div className="lap_timer">
+          <section className="lap_buttons">
+            <button className="lap_button" onClick={() => setRunningTime(true)}>Start</button>
+            <button className="lap_button" onClick={() => setRunningTime(false)}>Stop</button>
+            <button className="lap_button" onClick={() => {
+              incrementLap()
+              setCurrentTime(0)
+              setCurrentWatts(0)
+            }}>Lap</button>
+            <button className="lap_button" onClick={() => {
+              setRunningTime(false)
+              setCurrentTime(0)
+              setCompletedTime([])
+              setCurrentWatts(0)
+              setCompletedWatts([])
+              setTotalWatts(0)
+              updateLapNum(0);
+            }}>Reset</button>
+          </section>
 
-      <div className="lap_timings">
-        <Timer name="current lap" value={currentTime}>
-          <p className="measurement" id="current_power">
-            {currentWatts} <span className="units" id="current_power_units">Watts</span>
-          </p>
-          <p className="measurement" id="current_power_joules">
-            {currentJoules} <span className="units" id="current_power_units_joules">Joules</span>
-          </p>
-        </Timer>
+          <div className="lap_timings">
+            <Timer name="current lap" value={currentTime}>
+              <p className="measurement" id="current_power">
+                {currentWatts} <span className="units" id="current_power_units">Watts</span>
+              </p>
+              <p className="measurement" id="current_power_joules">
+                {currentJoules} <span className="units" id="current_power_units_joules">Joules</span>
+              </p>
+            </Timer>
 
-        <Timer name="total time" value={totalTime}>
-          <p className="measurement" id="current_power">
-            {totalWatts} <span className="units" id="current_power_units">Total Watts</span>
-          </p>
-          <p className="measurement" id="current_power_joules">
-            {totalJoules} <span className="units" id="current_power_units_joules">Total Joules</span>
-          </p>
-        </Timer>
+            <Timer name="total time" value={totalTime}>
+              <p className="measurement" id="current_power">
+                {totalWatts} <span className="units" id="current_power_units">Total Watts</span>
+              </p>
+              <p className="measurement" id="current_power_joules">
+                {totalJoules} <span className="units" id="current_power_units_joules">Total Joules</span>
+              </p>
+            </Timer>
 
-        <Timer name="previous lap" value={previousTime}>
-          <p className="measurement" id="previous_power">
-            {previousWatts} <span className="units">Watts</span>
-          </p>
-        </Timer>
+            <Timer name="previous lap" value={previousTime}>
+              <p className="measurement" id="previous_power">
+                {previousWatts} <span className="units">Watts</span>
+              </p>
+            </Timer>
 
-        <Timer name="best lap" value={bestTime}>
-          <p className="measurement" id="best_power">
-            {bestWatts} <span className="units">Watts</span>
-          </p>
-        </Timer>
+            <Timer name="best lap" value={bestTime}>
+              <p className="measurement" id="best_power">
+                {bestWatts} <span className="units">Watts</span>
+              </p>
+            </Timer>
+          </div>
+        </div>
+
       </div>
+      <CarData></CarData>
     </div>
   </>)
 }
