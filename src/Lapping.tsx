@@ -1,7 +1,6 @@
-import React, { useEffect } from "react"
+import React, { useContext, useEffect } from "react"
 import { useSocket } from "./useSocket"
 import SpeedGraph from "./Graph";
-import CarData from "./CarData";
 
 const TICK_SIZE = 10
 const NAN_STRING = "--"
@@ -10,7 +9,9 @@ interface Data {
   power: number;
 }
 /**
- * Given a number time, format it to look like 00:00:00. Time is in milliseconds. If the given time is NaN, just returns "---". If the given time is not a number (as in it's a string or something), then just return that too.
+ * Given a number time, format it to look like 00:00:00. Time is in milliseconds. 
+ * If the given time is NaN, just returns "---". If the given time is not a number 
+ * (as in it's a string or something), then just return that too.
  */
 function formatTime(time: number) {
   if (isNaN(time)) return NAN_STRING
@@ -31,7 +32,9 @@ function formatTime(time: number) {
 
 /**
  * A method abstracting the timer format (label and time)
- * @param param0 name: the label, value: the time displayed, children: rest of elements in div
+ * @param namethe label for this Timer
+ * @param value the time displayed
+ * @param children: rest of elements in div
  * @returns Formatted timer div
  */
 const Timer = ({ name, value, children }: { name: string, value: number, children: JSX.Element | JSX.Element[] }) => (
@@ -186,9 +189,8 @@ export default function Lapping() {
             </Timer>
           </div>
         </div>
-
       </div>
-      <CarData></CarData>
+      <SpeedGraph></SpeedGraph>
     </div>
   </>)
 }
