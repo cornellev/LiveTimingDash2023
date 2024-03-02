@@ -37,7 +37,7 @@ export default function CarData(props: Data) {
 
   return (<>
     <div className="car_data">
-      <p className="measurement_nobg">CURRENT SPEED: {props.speed}</p>
+      <p className="measurement_nobg">CURRENT SPED: {props.speed}</p>
       <p className="measurement_nobg">STEERING ANGLE: {props.steering_angle}</p>
     </div>
 
