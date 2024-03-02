@@ -1,4 +1,4 @@
-# Live Timing Dash | FAll 2023
+# Live Timing Dash | Fall 2023
 Serena Duncan (smd334)
 # Summary
 ## System Description
