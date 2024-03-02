@@ -73,3 +73,41 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+.header {
+  display:flex;
+  margin-left: auto;
+  margin-right: auto;
+  flex-direction: row;
+ }
+ 
+ 
+ @media (max-width: 1000px) {
+  .header {
+    flex-direction: column;
+  }
+ 
+ 
+  #header {
+    float: center;
+  }
+ }
+ 
+ 
+ #logo {
+  width: 50%;
+  padding: 30px;
+  float: left;
+  flex-shrink:0;
+ }
+ 
+ 
+ #title {
+  display:inline-block;
+  font-size: 40px;
+  padding: 30px;
+  text-align: center;
+  color: #b21a1b;
+  white-space: nowrap;
+ }
+ 
