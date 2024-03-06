@@ -1,5 +1,5 @@
 import { useEffect, useState, createContext } from "react";
-let SOCKET_URL = "ws://" + location.host
+let SOCKET_URL = "ws://" + location.host //livetimingdash.heroku.com for comp deployment
 const ws = new WebSocket(SOCKET_URL)
 export const SocketContext = createContext(ws)
 

@@ -110,3 +110,21 @@ if (!process.env['VITE']) {
   })
   app.listen(process.env['PORT'])
 }
+
+import { WebSocketServer } from 'ws'
+import http from 'http'
+
+// Spinning the HTTP server and the WebSocket server.
+const server = http.createServer();
+const wss = new WebSocketServer({ server });
+const port = 5173;
+server.listen(port, () => {
+  console.log(`WebSocket server is running on port ${port}`);
+});
+wss.on('listening', () => {
+  console.log("server be listening")
+})
+wss.on('connection', () => {
+  console.log("server connected to client I think??")
+})
+//how does data actually get sent tho
