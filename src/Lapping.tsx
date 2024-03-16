@@ -92,12 +92,7 @@ export default function Lapping() {
     socket.onmessage = (event: MessageEvent) => {
       update(event.data)
     }
-    socket.OPEN
-
     setTotalWatts(t => currentWatts + t)
-    return () => {
-      socket.close()
-    }
   }, [socket])
 
   /**

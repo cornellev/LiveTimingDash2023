@@ -59,9 +59,7 @@ const SpeedGraph = () => {
       updateData(message.data)
     }
 
-    socket.OPEN
-    return () => socket.close()
-  })
+  }, [socket])
 
   function clearGraph() {
     updatePoints([{ x: 0, y: 0 }]);
@@ -73,7 +71,6 @@ const SpeedGraph = () => {
     <div className="graph">
       <div className="display-data-static">
         <CarData speed={currSpeed} steering_angle={steerAngle} />
-        <BatteryData />
       </div>
 
 
