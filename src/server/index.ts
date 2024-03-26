@@ -100,6 +100,22 @@ app.post('/insert/gps', (req, res) => {
     })
 })
 
+//Insert all sensor values into consolidated_data_uc24 table
+app.post('/insert/uc24', (req, res) => {
+  client.query("INSERT INTO consolidated_data_uc24(accel, gps_lat, gps_long," +
+    " left_rpm, right_rpm, potent, temp, timestamp) VALUES ($1, $2, $3, $4, $5," +
+    " $6, $7, $8)",
+    [req.body.accel, req.body.gps_lat, req.body.gps_long, req.body.left_rpm,
+    req.body.right_rpm, req.body.potent, req.body.temp, now],
+    (err) => {
+      if (err) {
+        console.log(err)
+      } else {
+        res.send(req.body)
+      }
+    })
+})
+
 //Makes sure that the process uses vite, listens on the local port specified.
 //This function is for local testing (use with postman)!
 if (!process.env['VITE']) {
@@ -111,20 +127,22 @@ if (!process.env['VITE']) {
   app.listen(process.env['PORT'])
 }
 
-import { WebSocketServer } from 'ws'
-import http from 'http'
 
-// Spinning the HTTP server and the WebSocket server.
-const server = http.createServer();
-const wss = new WebSocketServer({ server });
-const port = 5173;
-server.listen(port, () => {
-  console.log(`WebSocket server is running on port ${port}`);
-});
-wss.on('listening', () => {
-  console.log("server be listening")
-})
-wss.on('connection', () => {
-  console.log("server connected to client I think??")
-})
-//how does data actually get sent tho
+// import { WebSocketServer } from 'ws'
+// import http from 'http'
+
+// // Spinning the HTTP server and the WebSocket server.
+// const server = http.createServer();
+// const wss = new WebSocketServer({ server });
+// const port = 5173;
+// console.log(wss.address())
+// server.listen(port, () => {
+//   console.log(`WebSocket server is running on port ${port}`);
+// });
+// wss.on('listening', () => {
+//   console.log("server be listening")
+// })
+// wss.on('connection', () => {
+//   console.log("server connected to client I think??")
+// })
+// //how does data actually get sent tho

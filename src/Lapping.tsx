@@ -6,7 +6,11 @@ const TICK_SIZE = 10
 const NAN_STRING = "--"
 
 interface Data {
-  power: number;
+  power: number,
+  speed: number,
+  potench: number,
+  mc_temp: number,
+  accel: number
 }
 /**
  * Given a number time, format it to look like 00:00:00. Time is in milliseconds. 
@@ -55,8 +59,11 @@ const Timer = ({ name, value, children }: { name: string, value: number, childre
     </div>
   </div>)
 
-export default function Lapping() {
-  const socket = useSocket();
+interface LappingProps {
+  data: Data
+}
+export default function Lapping(props: LappingProps) {
+  // const socket = useSocket();
   // state functions for whether timer is on or off
   const [runningTime, setRunningTime] = React.useState<boolean>(false)
 
@@ -71,7 +78,6 @@ export default function Lapping() {
 
   //lap number
   const [lapNum, updateLapNum] = React.useState<number>(0)
-  let data: Data = { power: 0 }
 
   //setting timer
   useEffect(() => {
@@ -85,15 +91,19 @@ export default function Lapping() {
   }, [runningTime])
 
   useEffect(() => {
-    const update = (rawData: string) => {
-      data = Object.assign(data, JSON.parse(rawData))
-      setCurrentWatts(data.power)
-    } //should be stringified in the server.js file before being sent here
-    socket.onmessage = (event: MessageEvent) => {
-      update(event.data)
-    }
+    setCurrentWatts(props.data.power)
     setTotalWatts(t => currentWatts + t)
-  }, [socket])
+  }, [props.data])
+  // useEffect(() => {
+  //   const update = (rawData: string) => {
+  //     data = Object.assign(data, JSON.parse(rawData))
+  //     setCurrentWatts(data.power)
+  //   } //should be stringified in the server.js file before being sent here
+  //   socket.onmessage = (event: MessageEvent) => {
+  //     update(event.data)
+  //   }
+  //   setTotalWatts(t => currentWatts + t)
+  // }, [socket])
 
   /**
    * Updates Wattage and Time arrays after a lap is completed
@@ -107,7 +117,6 @@ export default function Lapping() {
     // TODO replace this with proper state management
     // hacky DOM manipulation for now lol
     updateLapNum(lapNum + 1)
-
   }
 
   // the total is the current lap time plus the sum of all the completed lap times
@@ -185,7 +194,7 @@ export default function Lapping() {
           </div>
         </div>
       </div>
-      <SpeedGraph></SpeedGraph>
+      <SpeedGraph data={props.data}></SpeedGraph>
     </div>
   </>)
 }

@@ -11,15 +11,20 @@ var CanvasJS = CanvasJSReact.CanvasJS;
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 interface Data {
+  power: number,
   speed: number,
-  steering_angle: number
+  potench: number,
+  mc_temp: number,
+  accel: number
 }
-const SpeedGraph = () => {
-  const socket = useSocket()
-  let data: Data = { speed: 0, steering_angle: 0 }
+interface GraphProps {
+  data: Data
+}
+const SpeedGraph = (props: GraphProps) => {
+  // const socket = useSocket()
+  // let data: Data = { speed: 0, steering_angle: 0 }
 
   const [currSpeed, setSpeed] = useState(0)
-  const [steerAngle, setAngle] = useState(0)
   const [currTime, setTime] = useState(0)
 
   const [points, updatePoints] = useState([{ x: 0, y: 0 }])
@@ -48,18 +53,22 @@ const SpeedGraph = () => {
 
     return () => clearInterval(ticker)
   })
-  useEffect(() => {
-    const updateData = (raw: string) => {
-      data = Object.assign(data, JSON.parse(raw))
-      setSpeed(data.speed)
-      setAngle(data.steering_angle)
-      updatePoints([...points, { x: currTime, y: currSpeed }])
-    }
-    socket.onmessage = (message) => {
-      updateData(message.data)
-    }
+  // useEffect(() => {
+  //   const updateData = (raw: string) => {
+  //     data = Object.assign(data, JSON.parse(raw))
+  //     setSpeed(data.speed)
+  //     setAngle(data.steering_angle)
+  //     updatePoints([...points, { x: currTime, y: currSpeed }])
+  //   }
+  //   socket.onmessage = (message) => {
+  //     updateData(message.data)
+  //   }
 
-  }, [socket])
+  // }, [socket])
+  useEffect(() => {
+    setSpeed(props.data.speed)
+    updatePoints([...points, { x: currTime, y: currSpeed }])
+  }, [props.data])
 
   function clearGraph() {
     updatePoints([{ x: 0, y: 0 }]);
@@ -70,7 +79,7 @@ const SpeedGraph = () => {
   return (
     <div className="graph">
       <div className="display-data-static">
-        <CarData speed={currSpeed} steering_angle={steerAngle} />
+        <CarData speed={currSpeed} />
       </div>
 
 
