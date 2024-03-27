@@ -5,13 +5,13 @@ import SpeedGraph from "./Graph";
 const TICK_SIZE = 10
 const NAN_STRING = "--"
 
-interface Data {
-  power: number,
-  speed: number,
-  potench: number,
-  mc_temp: number,
-  accel: number
-}
+// interface Data {
+//   power: number,
+//   speed: number,
+//   potench: number,
+//   mc_temp: number,
+//   accel: number
+// }
 /**
  * Given a number time, format it to look like 00:00:00. Time is in milliseconds. 
  * If the given time is NaN, just returns "---". If the given time is not a number 
@@ -60,7 +60,11 @@ const Timer = ({ name, value, children }: { name: string, value: number, childre
   </div>)
 
 interface LappingProps {
-  data: Data
+  accel: number,
+  left_rpm: number,
+  right_rpm: number,
+  potent: number,
+  temp: number
 }
 export default function Lapping(props: LappingProps) {
   // const socket = useSocket();
@@ -90,10 +94,11 @@ export default function Lapping(props: LappingProps) {
     return () => clearInterval(ticker)
   }, [runningTime])
 
-  useEffect(() => {
-    setCurrentWatts(props.data.power)
-    setTotalWatts(t => currentWatts + t)
-  }, [props.data])
+  //not using watts rn ig
+  // useEffect(() => {
+
+  //   setTotalWatts(t => currentWatts + t)
+  // }, [])
   // useEffect(() => {
   //   const update = (rawData: string) => {
   //     data = Object.assign(data, JSON.parse(rawData))
@@ -194,7 +199,7 @@ export default function Lapping(props: LappingProps) {
           </div>
         </div>
       </div>
-      <SpeedGraph data={props.data}></SpeedGraph>
+      <SpeedGraph running={runningTime} accel={props.accel} right_rpm={props.right_rpm} left_rpm={props.left_rpm} potent={props.potent} temp={props.temp}></SpeedGraph>
     </div>
   </>)
 }

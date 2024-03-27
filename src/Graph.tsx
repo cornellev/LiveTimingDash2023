@@ -10,15 +10,15 @@ import BatteryData from "./BatteryData";
 var CanvasJS = CanvasJSReact.CanvasJS;
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
-interface Data {
-  power: number,
-  speed: number,
-  potench: number,
-  mc_temp: number,
-  accel: number
-}
+
 interface GraphProps {
-  data: Data
+  accel: number,
+  left_rpm: number,
+  right_rpm: number,
+  potent: number,
+  temp: number,
+  running: boolean
+
 }
 const SpeedGraph = (props: GraphProps) => {
   // const socket = useSocket()
@@ -50,9 +50,10 @@ const SpeedGraph = (props: GraphProps) => {
     const ticker = setInterval(() => {
       setTime(t => t + 10)
     }, 10)
-
+    setSpeed(props.accel)
+    updatePoints([...points, { x: currTime, y: currSpeed }])
     return () => clearInterval(ticker)
-  })
+  }, [props.running])
   // useEffect(() => {
   //   const updateData = (raw: string) => {
   //     data = Object.assign(data, JSON.parse(raw))
@@ -65,10 +66,6 @@ const SpeedGraph = (props: GraphProps) => {
   //   }
 
   // }, [socket])
-  useEffect(() => {
-    setSpeed(props.data.speed)
-    updatePoints([...points, { x: currTime, y: currSpeed }])
-  }, [props.data])
 
   function clearGraph() {
     updatePoints([{ x: 0, y: 0 }]);
@@ -79,7 +76,7 @@ const SpeedGraph = (props: GraphProps) => {
   return (
     <div className="graph">
       <div className="display-data-static">
-        <CarData speed={currSpeed} />
+        <CarData accel={currSpeed} right_rpm={props.right_rpm} left_rpm={props.left_rpm} potent={props.potent} temp={props.temp} />
       </div>
 
 

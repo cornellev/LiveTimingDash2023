@@ -1,4 +1,4 @@
-import useWebSocket, { ReadyState } from 'react-use-websocket'
+import { io } from "socket.io-client";
 import { useState, useEffect } from 'react'
 import './App.css'
 import { SocketProvider } from './SocketProvider'
@@ -8,14 +8,19 @@ import Header from './Header'
 // import CarData from './CarData'
 // import SpeedGraph from './Graph'
 
-let SOCKET_URL = "ws://" + location.host //livetimingdash.heroku.com for comp deployment
-//this may need to change to be whatever the fuck the server url is
+
+let loc = location.host //livetimingdash.heroku.com for comp deployment
+let SOCKET_URL = "wss://" + loc + "/insert/uc24"
+const socket = io()
+
 interface Data {
-  power: number,
-  speed: number,
-  potench: number,
-  mc_temp: number,
-  accel: number
+  accel: number,
+  gps_lat: number,
+  gps_long: number,
+  left_rpm: number,
+  right_rpm: number,
+  potent: number,
+  temp: number
 }
 function App() {
 
@@ -29,24 +34,47 @@ function App() {
   //     data = Object.assign(data, JSON.parse(currMsg))
   //   }
   // }, [lastMessage])
-  const [data, setData] = useState<Data>({ power: 0, speed: 0, potench: 0, mc_temp: 0, accel: 0 })
-
-  useEffect(() => {
-    const ws = new WebSocket(SOCKET_URL)
-    ws.onopen = () => { console.log("socket is open") }
-
-    ws.onmessage = (e) => {
-      setData(Object.assign(data, JSON.parse(e.data)))
-      console.log("recieved data")
-    }
+  const [data, setData] = useState<Data>({
+    accel: 0,
+    gps_lat: 0,
+    gps_long: 0,
+    left_rpm: 0,
+    right_rpm: 0,
+    potent: 0,
+    temp: 0
   })
+  socket.on("connect", () => {
+    console.log(socket.id); // x8WIv7-mJelg7on_ALbx
+    console.log(socket.connected)
+  });
+  socket.on("data-sent", (raw) => {
+    const temp = Object.assign(data, JSON.parse(raw))
+    setData(temp)
+  })
+  // const [wsStatus, setStatus] = useState<boolean>(false)
+
+  // useEffect(() => {
+  //   const ws = new WebSocket(SOCKET_URL)
+  //   console.log(ws.readyState)
+  //   ws.onopen = () => {
+  //     console.log("socket is open")
+  //     setStatus(true)
+  //   }
+
+  //   ws.onmessage = (e) => {
+  //     setData(Object.assign(data, JSON.parse(e.data)))
+  //     console.log("recieved data")
+  //     ws.send("data recieved!!")
+  //   }
+
+  // }, [])
 
   return (
     <>
       <Header />
-      <SocketProvider>
-        <Lapping data={data} />
-      </SocketProvider>
+      {/* <SocketProvider> */}
+      <Lapping accel={data.accel} right_rpm={data.right_rpm} left_rpm={data.left_rpm} potent={data.potent} temp={data.temp} />
+      {/* </SocketProvider> */}
       {/* <BatteryData /> */}
     </>
   )
