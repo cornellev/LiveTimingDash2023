@@ -1,6 +1,7 @@
 import { Server } from 'socket.io';
 
-const port = 5173
+const port = (process.env.PORT === undefined) ? 0 : parseInt(process.env.PORT)
+
 const io = new Server(port, {
   connectionStateRecovery: {
     // the backup duration of the sessions and the packets
