@@ -36,3 +36,9 @@
 .graph {
   width: 50vw;
 }
+
+.car_data {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
