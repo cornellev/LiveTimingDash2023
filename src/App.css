@@ -15,8 +15,25 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  gap: 1em 1em;
-  width: 32em;
+  justify-content: center;
+  gap: 2vw 1vh;
+}
+
+.lap_timer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 40vw
+}
+
+.lap_buttons {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  width: 31em;
+  padding-bottom: .5em;
 }
 
 #lapno {
@@ -40,5 +57,9 @@
 .car_data {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-evenly;
+  gap: 1vw;
+  justify-content: center;
+  width: 40vw;
+  padding-left: 5vw;
+  padding-right: 5vw;
 }
