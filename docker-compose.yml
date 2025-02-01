@@ -10,9 +10,19 @@ services:
       - REDIS_HOST=redis
       - REDIS_PORT=6379
     volumes:
-      - .:/app
+      - ./backend:/app  # Mount only the backend folder into /app
     depends_on:
       - redis
+    networks:
+      - ev-network
+    restart: unless-stopped
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"  # Adjust this port to your frontend's desired port
+    volumes:
+      - ./frontend:/app  # Mount only the frontend folder into /app
     networks:
       - ev-network
     restart: unless-stopped
@@ -27,7 +37,7 @@ services:
       - ev-network
   
   data-loader:
-    build: ./data-loader
+    build: ./backend/data-loader
     depends_on:
       - redis
     environment:
@@ -35,7 +45,6 @@ services:
       - REDIS_PORT=6379
     networks:
       - ev-network
-
 
 volumes:
   redis-data:

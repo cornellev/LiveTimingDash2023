@@ -1,6 +1,7 @@
-# Dockerfile
+# Use a lightweight Python base image
 FROM python:3.11-slim
 
+# Set the working directory in the container
 WORKDIR /app
 
 # Install system dependencies
@@ -8,17 +9,16 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy requirements first to leverage Docker cache
-COPY requirements.txt .
+# Copy only the contents of the backend folder into the container's working directory
+COPY ./ ./
+
+# Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the entire project
-COPY . .
-
-# This ensures Python can find your modules
+# Set the Python path
 ENV PYTHONPATH=/app
 
-# Expose the port the app runs on
+# Expose the port the app will run on
 EXPOSE 8000
 
 # Create a non-root user and switch to it
