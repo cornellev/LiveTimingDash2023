@@ -61,3 +61,23 @@ class RedisService:
     async def __aexit__(self, exc_type, exc_val, exc_tb):
         """Async context manager exit"""
         await self.close()
+
+    async def get_sensor_data_all(self, sensor_id):
+        redis_client = await self.get_connection()
+        sensor_key = "sensor:" + sensor_id
+        sensor_data = await redis_client.hgetall(sensor_key)
+        return sensor_data
+
+    async def get_sensor_data(self, sensor_id, sensor_type):
+        redis_client = await self.get_connection()
+        sensor_key = "sensor:" + sensor_id
+        sensor_data = await redis_client.hget(sensor_key, sensor_type)
+        return sensor_data
+
+    async def store_sensor_data(self, sensor_id, sensor_type, sensor_json):
+        redis_client = await self.get_connection()
+        sensor_key = "sensor:" + sensor_id
+        await redis_client.hset(sensor_key, sensor_type, sensor_json)
+
+    # async def get_timing_data(self, timing_device, )
+    # async def store_timing_data(self, )
