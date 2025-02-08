@@ -1,0 +1,9 @@
+# OS-specific files
+*.DS_Store*
+
+# Python cache and virtual environment files
+*__pycache__*
+*.py[cod]
+*.pyo
+*.pyd
+.Python
