@@ -1,0 +1,39 @@
+# Use a base image with Python and Node.js installed
+FROM python:3.9 AS backend
+WORKDIR /app
+
+# Install backend dependencies
+COPY ./backend/requirements.txt /app/
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy backend code
+COPY ./backend /app/
+
+# Build the frontend
+FROM node:18 AS frontend
+WORKDIR /app
+COPY ./frontend /app/
+RUN npm install && npm run build
+
+# Final image with both backend and frontend
+FROM python:3.9
+WORKDIR /app
+
+# Install Redis (if required inside the same container)
+RUN apt-get update && apt-get install -y redis
+
+# Copy backend and frontend from previous stages
+COPY --from=backend /app /app/backend
+COPY --from=frontend /app/build /app/frontend/build
+
+# Install supervisor to manage multiple processes
+RUN apt-get update && apt-get install -y supervisor
+
+# Add supervisor configuration
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+# Expose necessary ports
+EXPOSE 8000 3000 6379
+
+# Run supervisor to manage services
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
