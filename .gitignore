@@ -7,3 +7,5 @@
 *.pyo
 *.pyd
 .Python
+
+*node_modules*

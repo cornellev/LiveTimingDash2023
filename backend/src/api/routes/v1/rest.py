@@ -15,7 +15,7 @@ async def root():
 async def status():
     return {"status": "operational"}
 
-
+# Getting data from sensors
 @router.get("/sensor/{sensor_id}")
 async def read_latest_sensor_data(sensor_id):
     sensor_data = await redis_service.get_sensor_data_all(sensor_id)
@@ -48,3 +48,9 @@ async def read_sensor_type_data(sensor_id, sensor_type):
             last_update=sensor_values.timestamp,
         )
         return sensor_response
+    
+# Getting timing data 
+@router.post("/timing/")
+async def get_timing(lap_ids: int, lap_times: list[float], total_time: float):
+    print(f"Lap ID: {lap_ids}; Lap Times: {lap_times}; Total Time: {total_time}")
+    return {"message": "Lap times received", "lap_ids": lap_ids, "lap_times": lap_times, "total_time": total_time}
