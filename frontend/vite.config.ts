@@ -1,8 +1,11 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import express from './express-plugin'
+import { defineConfig } from 'vite';
 
-// https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(), express('src/server')],
-})
+  root: '.', // Ensure it looks at the correct directory
+  build: {
+    outDir: 'dist',
+    rollupOptions: {
+      input: 'public/index.html', // Explicitly set the input path
+    }
+  }
+});

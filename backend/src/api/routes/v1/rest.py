@@ -1,6 +1,7 @@
 from fastapi import APIRouter
 from services.redis_service import RedisService
 from models.schemas import *
+from pydantic import BaseModel
 
 router = APIRouter()
 redis_service = RedisService()
@@ -50,7 +51,12 @@ async def read_sensor_type_data(sensor_id, sensor_type):
         return sensor_response
     
 # Getting timing data 
+class LapData(BaseModel):
+    lap_ids: int
+    lap_times: list[float]
+    total_time: float
+
 @router.post("/timing/")
-async def get_timing(lap_ids: int, lap_times: list[float], total_time: float):
-    print(f"Lap ID: {lap_ids}; Lap Times: {lap_times}; Total Time: {total_time}")
-    return {"message": "Lap times received", "lap_ids": lap_ids, "lap_times": lap_times, "total_time": total_time}
+async def get_timing(data: LapData):
+    print(f"Lap ID: {data.lap_ids}; Lap Times: {data.lap_times}; Total Time: {data.total_time}")
+    return {"message": "Lap times received", "lap_ids": data.lap_ids, "lap_times": data.lap_times, "total_time": data.total_time}

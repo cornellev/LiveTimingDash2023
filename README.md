@@ -12,13 +12,12 @@ This starts the frontend react app, backend, and a Redis server all at the same 
 
 ### Deployment onto Heroku server
 
-Since Heroku only allows you to deploy one container onto their server (no SSH or anything either), we must consolidate everything into one single container: `Dockerfile.heroku`. I am going to use a DinD (Docker inside Docker) approach to orchestrate this. To make sure we have the right permissions running a Docker inside our deployment container, we need to use `supervisord.conf` and some configurations to make sure we have the right system access.
-
-You can check the single container setup for our multi-container docker compose app by running
+Since Heroku only allows you to deploy one container onto their server (no SSH or anything either), we must consolidate everything into one single container: `Dockerfile.heroku`. Since each Dockerfile only has one command to run at the end, we will use `supervisord.config` to run various commands in the background all at once, with other features like restart, logging and such (better than a bash script).
 
 ```
-docker build -t my-app .
-docker run -p 8000:8000 -p 3000:3000 -p 6379:6379 cev-live-timing
+docker build --platform linux/amd64 -f Dockerfile.heroku -t registry.heroku.com/live-timing-dash/web .
+docker push registry.heroku.com/live-timing-dash/web
+heroku container:release web --app live-timing-dash
 ```
 
-You should see the container running after running `docker ps`
+Build the image with `linux/amd64` to make it compatible with the actual servers running at Heroku. We need to tag each docker container with `registry.heroku.com/live-timing-dash/web` for it to release properly. Then we push it over to the registry what heroku uses for this specific live-timing-dash app. Then we can then use it to release to the linux.

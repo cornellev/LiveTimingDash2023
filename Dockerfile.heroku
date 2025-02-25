@@ -1,33 +1,43 @@
-# Use a base image with Python and Node.js installed
-FROM python:3.9 AS backend
+# === Stage 1: Build the Backend ===
+FROM python:3.11-slim AS backend
 WORKDIR /app
 
-# Install backend dependencies
-COPY ./backend/requirements.txt /app/
-RUN pip install --no-cache-dir -r requirements.txt
+# Install system dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends build-essential \
+    && rm -rf /var/lib/apt/lists/*
 
-# Copy backend code
+# Copy backend files
 COPY ./backend /app/
 
-# Build the frontend
-FROM node:18 AS frontend
+# Install backend dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Set Python path
+ENV PYTHONPATH=/app
+
+# === Stage 2: Build the Frontend ===
+# FROM node:18 AS frontend
+# WORKDIR /app/frontend
+
+# # Copy frontend files
+# COPY ./frontend /app/frontend/
+
+# # Install dependencies and build the frontend
+# RUN npm install && npm run build
+
+# === Stage 3: Final Image with Backend and Frontend ===
+FROM python:3.11-slim
 WORKDIR /app
-COPY ./frontend /app/
-RUN npm install && npm run build
 
-# Final image with both backend and frontend
-FROM python:3.9
-WORKDIR /app
+# Install Redis, Supervisor, and Node.js
+RUN apt-get update && apt-get install -y nodejs npm redis supervisor
 
-# Install Redis (if required inside the same container)
-RUN apt-get update && apt-get install -y redis
-
-# Copy backend and frontend from previous stages
+# Copy backend from build stage
 COPY --from=backend /app /app/backend
-COPY --from=frontend /app/build /app/frontend/build
+RUN pip install --no-cache-dir -r /app/backend/requirements.txt
 
-# Install supervisor to manage multiple processes
-RUN apt-get update && apt-get install -y supervisor
+# Copy built frontend
+# COPY --from=frontend /app/frontend/dist /app/frontend/dist
 
 # Add supervisor configuration
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
@@ -35,5 +45,5 @@ COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 # Expose necessary ports
 EXPOSE 8000 3000 6379
 
-# Run supervisor to manage services
+# Run Supervisor to manage services
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
