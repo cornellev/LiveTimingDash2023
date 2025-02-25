@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from api.routes.v1 import router as v1_router
 from config import settings
+from mobile_dash import router as mobile_dash_router
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
@@ -20,7 +21,7 @@ app.add_middleware(
 
 # Include API routes
 app.include_router(v1_router, prefix=settings.API_V1_PREFIX)
-
+app.include_router(mobile_dash_router, prefix='/insert')
 
 @app.get("/health")
 async def health_check():
