@@ -17,15 +17,19 @@ services:
       - ev-network
     restart: unless-stopped
 
-  frontend:
-    build: ./frontend
-    ports:
-      - "3000:3000"  # Adjust this port to your frontend's desired port
-    volumes:
-      - ./frontend:/app  # Mount only the frontend folder into /app
-    networks:
-      - ev-network
-    restart: unless-stopped
+    frontend:
+      build: ./frontend
+      ports:
+        - "3000:3000"  # Expose React Dev Server
+      volumes:
+        - ./frontend:/app  # Mount frontend source code
+        - /app/node_modules  # Prevent overwriting node_modules
+      environment:
+        - CHOKIDAR_USEPOLLING=true  # Ensures hot reloading works inside Docker
+      networks:
+        - ev-network
+      restart: unless-stopped
+
 
   redis:
     image: redis:7-alpine
