@@ -14,24 +14,15 @@
   },
   "dependencies": {
     "@canvasjs/react-charts": "^1.0.0",
-    "@types/body-parser": "^1.19.5",
-    "@types/pg": "^8.11.0",
-    "body-parser": "^1.20.2",
-    "express": "^4.18.2",
-    "pg": "^8.11.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-use-websocket": "^3.0.0",
-    "socket.io": "^4.7.5",
-    "socket.io-client": "^4.7.5",
-    "ws": "^8.16.0"
+    "socket.io-client": "^4.7.5"
   },
   "devDependencies": {
-    "@types/express": "^4.17.21",
     "@types/node": "^20.10.0",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
-    "@types/ws": "^8.5.10",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
     "@vitejs/plugin-react": "^4.0.3",

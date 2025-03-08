@@ -27,7 +27,7 @@ RUN pip install --no-cache-dir -r /app/backend/requirements.txt
 COPY ./backend /app/backend
 
 # Copy built frontend
-# COPY --from=frontend /app/frontend/dist /app/frontend/dist
+COPY --from=frontend /app/frontend/dist /app/frontend/dist
 
 # Add supervisor configuration
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf

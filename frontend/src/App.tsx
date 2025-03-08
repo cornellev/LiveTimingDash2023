@@ -72,6 +72,7 @@ function App() {
   return (
     <>
       <Header />
+      hello world
       {/* <SocketProvider> */}
       <Lapping accel={data.accel} right_rpm={data.right_rpm} left_rpm={data.left_rpm} potent={data.potent} temp={data.temp} />
       {/* </SocketProvider> */}
