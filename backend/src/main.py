@@ -21,7 +21,7 @@ app.add_middleware(
 
 # Include API routes
 app.include_router(v1_router, prefix=settings.API_V1_PREFIX)
-app.include_router(mobile_dash_router, prefix='/insert')
+app.include_router(mobile_dash_router, prefix='')
 
 @app.get("/health")
 async def health_check():

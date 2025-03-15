@@ -21,3 +21,15 @@ heroku container:release web --app live-timing-dash
 ```
 
 Build the image with `linux/amd64` to make it compatible with the actual servers running at Heroku. We need to tag each docker container with `registry.heroku.com/live-timing-dash/web` for it to release properly. Then we push it over to the registry what heroku uses for this specific live-timing-dash app. Then we can then use it to release to the linux.
+
+### Debugging tips
+
+Running the container locally to see if the Dockerfile.heroku can be built correctly. However, we recommend using the docker build to enable hot reloads.
+```
+docker run --rm -p 8000:8000 -p 3000:3000 -p 6379:6379 registry.heroku.com/live-timing-dash/web
+```
+
+Checking the error log from the backend if something is not running
+```
+docker exec -it <docker container id> cat /var/log/backend.err.log
+```
