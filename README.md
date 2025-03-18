@@ -33,3 +33,10 @@ Checking the error log from the backend if something is not running
 ```
 docker exec -it <docker container id> cat /var/log/backend.err.log
 ```
+
+To send a test post request to the uc24 endpoint to see if the living timing dash backend is updating the frontend:
+```
+curl -X POST "http://live-timing-dash.herokuapp.com/api/insert/uc24" \
+     -H "Content-Type: application/json" \
+     -d '{"accel": 1.5, "gps_lat": 37.7749, "gps_long": -122.4194, "left_rpm": 3000, "right_rpm": 3200, "potent": 75, "temp": 85}'
+```

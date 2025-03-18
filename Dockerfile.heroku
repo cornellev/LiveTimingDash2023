@@ -1,4 +1,4 @@
-# === Stage 2: Build the Frontend ===
+# === Stage 1: Build the Frontend ===
 FROM node:18 AS frontend
 WORKDIR /app/frontend
 
@@ -8,14 +8,14 @@ COPY ./frontend /app/frontend/
 # Install dependencies and build the frontend
 RUN npm install && npm run build
 
-# === Stage 3: Final Image with Backend and Frontend ===
+# === Stage 2: Final Image with Backend, Frontend, and Nginx ===
 FROM python:3.11-slim
 WORKDIR /app
 
 ENV PYTHONPATH=/app
 
-# Install Redis, Supervisor, and Node.js
-RUN apt-get update && apt-get install -y nodejs npm redis supervisor
+# Install Redis, Supervisor, and Nginx
+RUN apt-get update && apt-get install -y redis-server supervisor nginx
 
 # Copy the requirements so that Docker can cache the installation
 COPY ./backend/requirements.txt /app/backend/requirements.txt
@@ -32,8 +32,16 @@ COPY --from=frontend /app/frontend/dist /app/frontend/dist
 # Add supervisor configuration
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-# Expose necessary ports
-EXPOSE 8000 3000 6379
+# Add Nginx configuration
+COPY nginx.conf /etc/nginx/nginx.conf
+RUN mkdir -p /var/log/nginx && touch /var/log/nginx/error.log /var/log/nginx/access.log && chown -R www-data:www-data /var/log/nginx
 
-# Run Supervisor to manage services
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+# Script to substitute environment variables in nginx.conf
+COPY start.sh /app/start.sh
+RUN chmod +x /app/start.sh
+
+# Expose the single Heroku port
+EXPOSE $PORT
+
+# Start services
+CMD ["/app/start.sh"]
