@@ -3,7 +3,11 @@ import "./App.css";
 import Lapping from "./Lapping";
 import Header from "./Header";
 
-let SOCKET_URL = "ws://localhost:8000/ws/uc24"; // Use standard WebSocket
+let SOCKET_URL = "wss://live-timing-dash.herokuapp.com/api/ws/uc24"; // Use standard WebSocket
+if (process.env.NODE_ENV === "development") {
+  console.log("Development mode: Using local WebSocket URL");
+  SOCKET_URL = "ws://localhost:3000/api/ws/uc24"; // Use local WebSocket for development
+}
 
 function App() {
   const [data, setData] = useState({
