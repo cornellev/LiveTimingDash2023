@@ -11,7 +11,10 @@ if (process.env.NODE_ENV === "development") {
 
 function App() {
   const [data, setData] = useState({
-    accel: 0,
+    x_accel: 0,
+    y_accel: 0,
+    z_accel: 0,
+    speed: 0,
     gps_lat: 0,
     gps_long: 0,
     left_rpm: 0,
@@ -61,7 +64,7 @@ function App() {
     <>
       <Header />
       <Lapping
-        accel={data.accel}
+        accel={data.speed}
         right_rpm={data.right_rpm}
         left_rpm={data.left_rpm}
         potent={data.potent}
