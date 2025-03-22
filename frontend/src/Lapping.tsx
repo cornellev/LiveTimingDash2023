@@ -60,7 +60,7 @@ const Timer = ({ name, value, children }: { name: string, value: number, childre
   </div>)
 
 interface LappingProps {
-  accel: number,
+  speed: number,
   left_rpm: number,
   right_rpm: number,
   potent: number,
@@ -199,7 +199,7 @@ export default function Lapping(props: LappingProps) {
           </div>
         </div>
       </div>
-      <SpeedGraph running={runningTime} accel={props.accel} right_rpm={props.right_rpm} left_rpm={props.left_rpm} potent={props.potent} temp={props.temp}></SpeedGraph>
+      <SpeedGraph running={runningTime} accel={props.speed} right_rpm={props.right_rpm} left_rpm={props.left_rpm} potent={props.potent} temp={props.temp}></SpeedGraph>
     </div>
   </>)
 }

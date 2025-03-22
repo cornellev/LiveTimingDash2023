@@ -64,7 +64,7 @@ function App() {
     <>
       <Header />
       <Lapping
-        accel={data.speed}
+        speed={data.speed}
         right_rpm={data.right_rpm}
         left_rpm={data.left_rpm}
         potent={data.potent}
