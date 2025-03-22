@@ -12,7 +12,7 @@ var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 
 interface GraphProps {
-  accel: number,
+  speed: number,
   left_rpm: number,
   right_rpm: number,
   potent: number,
@@ -50,7 +50,7 @@ const SpeedGraph = (props: GraphProps) => {
     const ticker = setInterval(() => {
       setTime(t => t + 10)
     }, 10)
-    setSpeed(props.accel)
+    setSpeed(props.speed)
     updatePoints([...points, { x: currTime, y: currSpeed }])
     return () => clearInterval(ticker)
   }, [props.running])
@@ -76,7 +76,7 @@ const SpeedGraph = (props: GraphProps) => {
   return (
     <div className="graph">
       <div className="display-data-static">
-        <CarData accel={currSpeed} right_rpm={props.right_rpm} left_rpm={props.left_rpm} potent={props.potent} temp={props.temp} />
+        <CarData speed={currSpeed} right_rpm={props.right_rpm} left_rpm={props.left_rpm} potent={props.potent} temp={props.temp} />
       </div>
 
 

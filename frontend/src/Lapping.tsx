@@ -199,7 +199,7 @@ export default function Lapping(props: LappingProps) {
           </div>
         </div>
       </div>
-      <SpeedGraph running={runningTime} accel={props.speed} right_rpm={props.right_rpm} left_rpm={props.left_rpm} potent={props.potent} temp={props.temp}></SpeedGraph>
+      <SpeedGraph running={runningTime} speed={props.speed} right_rpm={props.right_rpm} left_rpm={props.left_rpm} potent={props.potent} temp={props.temp}></SpeedGraph>
     </div>
   </>)
 }
