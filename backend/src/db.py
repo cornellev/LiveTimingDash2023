@@ -11,13 +11,14 @@ if not DATABASE_URL:
 def insert_sensor_data(data):
     query = """
         INSERT INTO official_data_2025.sensor_data (
-          x_accel, y_accel, z_accel,
-          gps_lat, gps_long,
-          left_rpm, right_rpm,
-          temp
-        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+        x_accel, y_accel, z_accel,
+        gps_lat, gps_long,
+        left_rpm, right_rpm,
+        temp
+        ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
         RETURNING *;
     """
+
     try:
         conn = psycopg2.connect(DATABASE_URL, sslmode='require')
         cur = conn.cursor()
