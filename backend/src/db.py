@@ -11,8 +11,7 @@ if DATABASE_URL is None:
 def insert_sensor_data(data):
     query = """
         INSERT INTO test-2025 (
-            Left_rpm, Right_rpm, Gps_lat, Gps_long,
-            X_accel, Y_accel, Z_accel, Temp
+            X_accel, Y_accel, Z_accel, Left_rpm, Right_rpm, Gps_lat, Gps_long, Temp
         ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
     """
     try:
