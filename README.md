@@ -38,5 +38,14 @@ To send a test post request to the uc24 endpoint to see if the living timing das
 ```
 curl -X POST "http://live-timing-dash.herokuapp.com/api/insert/uc24" \
      -H "Content-Type: application/json" \
-     -d '{"accel": 1.5, "gps_lat": 37.7749, "gps_long": -122.4194, "left_rpm": 3000, "right_rpm": 3200, "potent": 75, "temp": 85}'
+     -d '{
+           "gps_lat": 37.7749,
+           "gps_long": -122.4194,
+           "left_rpm": 3000,
+           "right_rpm": 3200,
+           "x_accel": 0.1,
+           "y_accel": 0.2,
+           "z_accel": 0.3,
+           "temp": 85.0
+         }'
 ```
