@@ -2,30 +2,40 @@ import os
 import psycopg2
 from dotenv import load_dotenv
 
-load_dotenv()  # Load DATABASE_URL from .env if not on Heroku
+load_dotenv()  # Optional, for local dev
 
-DATABASE_URL = os.environ.get("DATABASE_URL")
-if DATABASE_URL is None:
-    raise ValueError("DATABASE_URL environment variable not set")
+DATABASE_URL = os.getenv("DATABASE_URL")
+if not DATABASE_URL:
+    raise RuntimeError("DATABASE_URL is not set. Define it in Heroku or .env.")
 
 def insert_sensor_data(data):
-    query = """INSERT INTO "test-2025" (X_accel, Y_accel, Z_accel, Left_rpm, Right_rpm, Gps_lat, Gps_long, Temp) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"""
+    query = """
+        INSERT INTO official_data_2025.sensor_data (
+          x_accel, y_accel, z_accel,
+          gps_lat, gps_long,
+          left_rpm, right_rpm,
+          temp
+        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+        RETURNING *;
+    """
     try:
         conn = psycopg2.connect(DATABASE_URL, sslmode='require')
         cur = conn.cursor()
         cur.execute(query, (
-            data["left_rpm"],
-            data["right_rpm"],
-            data["gps_lat"],
-            data["gps_long"],
             data["x_accel"],
             data["y_accel"],
             data["z_accel"],
+            data["gps_lat"],
+            data["gps_long"],
+            data["left_rpm"],
+            data["right_rpm"],
             data["temp"]
         ))
+        inserted_row = cur.fetchone()
         conn.commit()
         cur.close()
         conn.close()
+        return inserted_row
     except Exception as e:
         print("DB Insert Error:", e)
         raise
