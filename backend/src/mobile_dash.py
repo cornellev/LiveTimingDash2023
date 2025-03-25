@@ -1,6 +1,8 @@
 from fastapi import APIRouter, Request, WebSocket, WebSocketDisconnect, HTTPException
 import json
 
+from src.db import insert_sensor_data
+
 router = APIRouter()
 
 # Store active WebSocket connections
@@ -28,6 +30,11 @@ async def insert_uc24(request: Request):
  
     #print(f"Steering Angle: {steer_angle}; Left RPM: {left_rpm}; Right RPM: {right_rpm}; "
            #f"Brake On: {brake_on}; Accelerometer: {accel}; Temperature: {temp}; Voltage: {voltage}")
+           
+    try:
+        insert_sensor_data(data)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to insert sensor data into database: {e}")
 
     # Send received data to all connected WebSocket clients
     for connection in active_connections:
