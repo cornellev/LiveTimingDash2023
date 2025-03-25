@@ -9,11 +9,7 @@ if DATABASE_URL is None:
     raise ValueError("DATABASE_URL environment variable not set")
 
 def insert_sensor_data(data):
-    query = """
-        INSERT INTO test-2025 (
-            X_accel, Y_accel, Z_accel, Left_rpm, Right_rpm, Gps_lat, Gps_long, Temp
-        ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
-    """
+    query = "INSERT INTO test-2025 (X_accel, Y_accel, Z_accel, Left_rpm, Right_rpm, Gps_lat, Gps_long, Temp) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
     try:
         conn = psycopg2.connect(DATABASE_URL, sslmode='require')
         cur = conn.cursor()
