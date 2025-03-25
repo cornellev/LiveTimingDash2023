@@ -10,7 +10,7 @@ if DATABASE_URL is None:
 
 def insert_sensor_data(data):
     query = """
-        INSERT INTO sensor_data (
+        INSERT INTO test-2025 (
             left_rpm, right_rpm, gps_lat, gps_long,
             x_accel, y_accel, z_accel, temp
         ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
