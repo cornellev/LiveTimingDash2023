@@ -142,7 +142,7 @@ export default function Lapping(props: LappingProps) {
 
   return (<>
     <div className="lap_graph_container">
-      <div>
+      <div className="lap_data">
         <div className="lapnum">
           <h1 id="lapno">LAP {lapNum}</h1>
         </div>
@@ -199,7 +199,9 @@ export default function Lapping(props: LappingProps) {
           </div>
         </div>
       </div>
-      <SpeedGraph running={runningTime} speed={props.speed} right_rpm={props.right_rpm} left_rpm={props.left_rpm} potent={props.potent} temp={props.temp}></SpeedGraph>
+      <div className="graph_data">
+        <SpeedGraph running={runningTime} accel={props.accel} right_rpm={props.right_rpm} left_rpm={props.left_rpm} potent={props.potent} temp={props.temp}></SpeedGraph>
+      </div>
     </div>
   </>)
 }

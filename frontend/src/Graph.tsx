@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import { useSocket } from "./useSocket";
 import CarData from "./CarData";
 import BatteryData from "./BatteryData";
+import StatusWidget from "./StatusWidget";
 //var CanvasJSReact = require('./canvasjs.react');
 var CanvasJS = CanvasJSReact.CanvasJS;
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
@@ -75,6 +76,7 @@ const SpeedGraph = (props: GraphProps) => {
 
   return (
     <div className="graph">
+      <StatusWidget speed={currSpeed} batteryLevel={100} batteryTemp={50}/>
       <div className="display-data-static">
         <CarData speed={currSpeed} right_rpm={props.right_rpm} left_rpm={props.left_rpm} potent={props.potent} temp={props.temp} />
       </div>

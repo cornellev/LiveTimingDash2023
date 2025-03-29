@@ -40,11 +40,12 @@ export default function CarData(props: CarProps) {
 
   return (<>
     <div className="car_data">
-      <p className="measurement_nobg">CURRENT SPEED: {props.speed}</p>
-      <p className="measurement_nobg">CURRENT LRPM: {props.left_rpm}</p>
-      <p className="measurement_nobg">CURRENT RRPM: {props.right_rpm}</p>
-      <p className="measurement_nobg">POTENTIOMETER: {props.potent}</p>
-      <p className="measurement_nobg">CURRENT TEMP: {props.temp}</p>
+    <div className="rest">
+        <p className="measurement_nobg">CURRENT LRPM: {props.left_rpm}</p>
+        <p className="measurement_nobg">CURRENT RRPM: {props.right_rpm}</p>
+        <p className="measurement_nobg">POTENTIOMETER: {props.potent}</p>
+        <p className="measurement_nobg">CURRENT TEMP: {props.temp}</p>
+      </div>
     </div>
 
   </>)
