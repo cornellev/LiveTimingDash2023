@@ -28,6 +28,18 @@ async def health_check():
     return {"status": "healthy", "version": "1.0.0"}
 
 
+@app.post("/test/")
+async def test_endpoint(request: Request):
+    try:
+        data = await request.json()
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"Invalid JSON payload: {e}")
+
+    return {
+        "message": "Test endpoint received",
+        "data": data
+    }
+
 @app.post("/timing/")
 async def get_timing(request: Request):
     try:
