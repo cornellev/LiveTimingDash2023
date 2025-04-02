@@ -28,7 +28,7 @@ async def health_check():
     return {"status": "healthy", "version": "1.0.0"}
 
 
-@app.post("/test/")
+@app.post("/test")
 async def test_endpoint(request: Request):
     try:
         data = await request.json()
@@ -40,7 +40,7 @@ async def test_endpoint(request: Request):
         "data": data
     }
 
-@app.post("/timing/")
+@app.post("/timing")
 async def get_timing(request: Request):
     try:
         data = await request.json()
