@@ -4,7 +4,7 @@ import os
 
 class Settings(BaseSettings):
     # API settings
-    API_V1_PREFIX: str = "/v1"
+    API_V1_PREFIX: str = "/api/v1"
     PROJECT_NAME: str = "LiveTiming Backend"
     DEBUG: bool = True
     
