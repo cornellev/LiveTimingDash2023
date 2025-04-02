@@ -63,3 +63,28 @@ async def websocket_endpoint(websocket: WebSocket):
     except WebSocketDisconnect:
         active_connections.remove(websocket)
         print("WebSocket Disconnected")
+
+
+
+# @router.post("/timing/")
+# async def get_timing(request: Request):
+#     try:
+#         data = await request.json()
+#     except Exception as e:
+#         raise HTTPException(status_code=400, detail=f"Invalid JSON payload: {e}")
+
+#     try:
+#         lap_ids = data['lap_ids']
+#         lap_times = data['lap_times']
+#         total_time = data['total_time']
+#     except KeyError as e:
+#         raise HTTPException(status_code=422, detail=f"Missing required field: {e.args[0]}")
+
+#     print(f"Lap ID: {lap_ids}; Lap Times: {lap_times}; Total Time: {total_time}")
+
+#     return {
+#         "message": "Lap times received",
+#         "lap_ids": lap_ids,
+#         "lap_times": lap_times,
+#         "total_time": total_time
+#     }
