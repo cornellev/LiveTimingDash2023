@@ -10,41 +10,43 @@ active_connections = set()
 @router.post("/insert/uc24")
 async def insert_uc24(request: Request):
     try:
-        data = await request.json()
+        payload = await request.json()
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Invalid JSON payload: {e}")
 
-    try:
-        left_rpm = data['left_rpm']
-        right_rpm = data['right_rpm']
-        gps_lat = data['gps_lat']
-        gps_long = data['gps_long']
-        x_accel = data['x_accel']
-        y_accel = data['y_accel']
-        z_accel = data['z_accel']
-        temp = data['temp']
-    except KeyError as e:
-        raise HTTPException(status_code=422, detail=f"Missing required field: {e.args[0]}")
+    # If it's a single object, wrap it in a list
+    data_list = payload if isinstance(payload, list) else [payload]
 
-    try:
-        await asyncio.to_thread(insert_sensor_data, data)
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to insert sensor data into database: {e}")
+    for data in data_list:
+        try:
+            # Validate required fields
+            _ = (
+                data['left_rpm'],
+                data['right_rpm'],
+                data['gps_lat'],
+                data['gps_long'],
+                data['x_accel'],
+                data['y_accel'],
+                data['z_accel'],
+                data['temp'],
+            )
+        except KeyError as e:
+            raise HTTPException(status_code=422, detail=f"Missing required field: {e.args[0]}")
 
-    for connection in active_connections:
-        await connection.send_text(json.dumps(data))
+        try:
+            await asyncio.to_thread(insert_sensor_data, data)
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=f"Failed to insert sensor data: {e}")
+
+        # Broadcast to all clients
+        for connection in active_connections:
+            await connection.send_text(json.dumps(data))
 
     return {
-        "message": "Sensor values received",
-        "gps_lat": gps_lat,
-        "gps_long": gps_long,
-        "left_rpm": left_rpm,
-        "right_rpm": right_rpm,
-        "x_accel": x_accel,
-        "y_accel": y_accel,
-        "z_accel": z_accel,
-        "temp": temp,
+        "message": "Sensor value(s) received",
+        "count": len(data_list)
     }
+
 
 
 
